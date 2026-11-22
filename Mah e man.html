@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#150f27">
+<title>For Fatima</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Figtree:wght@400;500;600&family=Noto+Nastaliq+Urdu:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#150f27;
+    --plum:#231a3d;
+    --plum-2:#2f2350;
+    --gold:#e9c785;
+    --gold-light:#f7e3b4;
+    --gold-deep:#c99a4b;
+    --cream:#f5ebd9;
+    --mist:#bfb3d6;
+    --pomegranate:#c4284d;
+    --serif:'Fraunces', Georgia, 'Times New Roman', serif;
+    --sans:'Figtree', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;color-scheme:dark}
+  [hidden]{display:none !important}
+  body{
+    background:
+      radial-gradient(ellipse 70% 50% at 85% 5%, rgba(120,70,150,.28), transparent 70%),
+      radial-gradient(ellipse 60% 45% at 10% 60%, rgba(196,40,77,.14), transparent 70%),
+      radial-gradient(ellipse 80% 50% at 50% 100%, rgba(233,199,133,.10), transparent 70%),
+      var(--ink);
+    background-attachment:fixed;
+    color:var(--cream);
+    font-family:var(--sans);
+    font-size:1.05rem;
+    line-height:1.6;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit}
+  :focus-visible{outline:2px solid var(--gold);outline-offset:4px;border-radius:4px}
+
+  #sky{position:fixed;inset:0;width:100%;height:100%;z-index:0;opacity:0;animation:skyIn 2.2s ease forwards}
+  #fx{position:fixed;inset:0;width:100%;height:100%;z-index:50;pointer-events:none}
+  main{position:relative;z-index:2}
+  @keyframes skyIn{to{opacity:1}}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    min-height:100vh;min-height:100svh;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:8vh 5vw 14vh;position:relative;
+  }
+  .moon{
+    position:absolute;top:7vh;right:8vw;width:clamp(64px,9vw,118px);
+    filter:drop-shadow(0 0 22px rgba(233,199,133,.45));
+    opacity:0;animation:fadeIn 2.4s .3s ease forwards;
+  }
+  @keyframes fadeIn{to{opacity:1}}
+
+  .name{width:min(94vw,1000px);height:auto;overflow:visible}
+  .name text{
+    font-family:var(--serif);font-style:italic;font-weight:300;font-size:230px;
+    font-optical-sizing:auto;
+    fill:url(#goldFill);fill-opacity:0;
+    stroke:var(--gold);stroke-width:1.4;
+    stroke-dasharray:1400;stroke-dashoffset:1400;
+    animation:draw 3.6s .5s cubic-bezier(.55,.1,.3,1) forwards, fillIn 1.4s 3.3s ease forwards;
+  }
+  @keyframes draw{to{stroke-dashoffset:0}}
+  @keyframes fillIn{to{fill-opacity:1;stroke-width:.5}}
+
+  .greet{
+    font-family:var(--serif);font-weight:300;font-size:clamp(1.5rem,4.2vw,2.6rem);
+    line-height:1.2;margin-top:.4rem;color:var(--cream);
+    opacity:0;transform:translateY(10px);animation:rise 1.4s 4.3s ease forwards;
+  }
+  .greet i{color:var(--gold-light)}
+  @keyframes rise{to{opacity:1;transform:none}}
+
+  .cue{
+    position:absolute;bottom:5vh;left:50%;transform:translateX(-50%);
+    display:flex;flex-direction:column;align-items:center;gap:.7rem;
+    color:var(--mist);text-decoration:none;font-size:.95rem;
+    opacity:0;animation:fadeIn 1.2s 5.4s ease forwards;
+  }
+  .cue::after{
+    content:"";width:1px;height:44px;background:linear-gradient(var(--gold),transparent);
+    transform-origin:top;animation:cueLine 2.6s 6s ease-in-out infinite;
+  }
+  @keyframes cueLine{0%{transform:scaleY(0)}50%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
+
+  /* ---------- Shared section ---------- */
+  section.block{padding:14vh 6vw;position:relative}
+  h2{
+    font-family:var(--serif);font-weight:300;line-height:1.08;
+    font-size:clamp(2.1rem,5vw,3.9rem);letter-spacing:-.01em;
+  }
+  h2 i{font-style:italic}
+  .lede{color:var(--mist);max-width:34ch;margin-top:1.3rem;font-size:1.1rem}
+
+  /* ---------- Constellation ---------- */
+  .stars-sec{
+    display:grid;gap:3rem 5vw;align-items:center;
+    grid-template-columns:minmax(0,5fr) minmax(0,6fr);
+    grid-template-areas:"copy map" "panel map";
+    max-width:1240px;margin:0 auto;
+  }
+  .copy{grid-area:copy;align-self:end}
+  .panel{grid-area:panel;align-self:start;min-height:15rem}
+  .map{grid-area:map}
+  .map svg{width:100%;height:auto;overflow:visible;display:block}
+
+  .link{stroke:var(--gold);stroke-width:1.2;stroke-linecap:round;opacity:.7;
+        stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.1s ease}
+  .link.on{stroke-dashoffset:0}
+
+  .star{cursor:pointer;outline:none}
+  .star .glyph{fill:var(--cream);opacity:.85;transform-box:fill-box;transform-origin:center;
+               transition:transform .5s cubic-bezier(.3,1.5,.5,1), fill .4s, opacity .4s, filter .4s}
+  .star:hover .glyph{transform:scale(1.25);opacity:1}
+  .star.seen .glyph{fill:var(--gold);opacity:1;transform:scale(1.15)}
+  .star.active .glyph{transform:scale(1.6);fill:var(--gold-light);filter:drop-shadow(0 0 9px rgba(247,227,180,.95))}
+  .star:focus-visible .glyph{filter:drop-shadow(0 0 8px #fff)}
+  .star .ring{fill:none;stroke:var(--gold);stroke-width:1;opacity:0;transform-box:fill-box;transform-origin:center;
+              animation:ping 2.8s ease-out infinite}
+  .star.seen .ring{animation:none;opacity:0}
+  @keyframes ping{0%{transform:scale(.8);opacity:.75}100%{transform:scale(2.6);opacity:0}}
+
+  .cname{font-family:var(--serif);font-style:italic;font-weight:300;font-size:34px;fill:var(--gold-light);
+         text-anchor:middle;opacity:0;transition:opacity 2s ease}
+  .cname.on{opacity:1}
+
+  .count{color:var(--mist);font-size:.95rem;margin-bottom:1rem}
+  .wish-text{
+    font-family:var(--serif);font-style:italic;font-weight:300;
+    font-size:clamp(1.5rem,2.6vw,2.15rem);line-height:1.3;max-width:20ch;min-height:4.2em;
+    color:var(--cream);
+  }
+  .wish-text.swap{animation:swap .6s ease}
+  @keyframes swap{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .done{margin-top:1.4rem;color:var(--gold-light);max-width:34ch;opacity:0;transition:opacity 1.6s ease;min-height:3.2em}
+  .done.on{opacity:1}
+
+  /* ---------- Candle ---------- */
+  .candle-sec{text-align:center;display:flex;flex-direction:column;align-items:center;min-height:100vh;justify-content:center}
+  .candle-sec .lede{margin-left:auto;margin-right:auto}
+  .cake{width:min(340px,78vw);height:auto;margin:2.2rem 0 1.4rem;overflow:visible}
+  #flame{transform-box:fill-box;transform-origin:50% 100%;animation:flicker 1.5s ease-in-out infinite;
+         transition:opacity .35s, transform .5s}
+  #glow{transition:opacity .6s;animation:glowPulse 2.4s ease-in-out infinite}
+  @keyframes flicker{
+    0%,100%{transform:scale(1,1) rotate(-1deg)}
+    25%{transform:scale(.95,1.07) rotate(1.6deg)}
+    50%{transform:scale(1.04,.97) rotate(-1.2deg)}
+    75%{transform:scale(.98,1.05) rotate(1deg)}}
+  @keyframes glowPulse{0%,100%{opacity:.85}50%{opacity:1}}
+  .out #flame{animation:none;opacity:0;transform:scale(.15,.03)}
+  .out #glow{animation:none;opacity:0}
+  #smoke{fill:none;stroke:var(--cream);stroke-width:2;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;opacity:0}
+  .out #smoke{animation:smoke 2.8s .1s ease-out forwards}
+  @keyframes smoke{
+    0%{stroke-dashoffset:1;opacity:0;transform:translateY(0)}
+    15%{opacity:.65}
+    100%{stroke-dashoffset:0;opacity:0;transform:translateY(-26px)}}
+  .flame-hit{cursor:pointer;outline:none}
+  .flame-hit:focus-visible{stroke:var(--gold);stroke-width:1.5;stroke-dasharray:4 4}
+
+  .btn{
+    font:600 1rem/1 var(--sans);cursor:pointer;border-radius:999px;padding:1rem 1.9rem;
+    border:1.5px solid var(--gold);background:var(--gold);color:var(--ink);
+    transition:transform .25s ease, background .25s, color .25s, box-shadow .3s;
+  }
+  .btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px -8px rgba(233,199,133,.55)}
+  .btn.ghost{background:transparent;color:var(--gold-light)}
+  .btn.ghost:hover{background:rgba(233,199,133,.12);box-shadow:none}
+  .btn[disabled]{opacity:.45;cursor:default;transform:none;box-shadow:none}
+
+  /* ---------- Finale ---------- */
+  .finale{
+    min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding:12vh 5vw 10vh;text-align:center;opacity:0;transition:opacity 2.2s ease;
+  }
+  .finale.show{opacity:1}
+  .arch{
+    --w:min(540px,92vw);
+    width:var(--w);padding:calc(var(--w)*.34) clamp(1.5rem,6vw,3.2rem) 3.4rem;
+    border:1px solid rgba(233,199,133,.6);
+    border-radius:calc(var(--w)/2) calc(var(--w)/2) 28px 28px;
+    position:relative;
+    background:linear-gradient(180deg, rgba(47,35,80,.55), rgba(21,15,39,.2));
+    box-shadow:0 0 90px -20px rgba(233,199,133,.35), inset 0 0 60px -30px rgba(233,199,133,.35);
+  }
+  .arch::before{
+    content:"";position:absolute;inset:10px;pointer-events:none;
+    border:1px solid rgba(233,199,133,.28);
+    border-radius:calc(var(--w)/2 - 10px) calc(var(--w)/2 - 10px) 20px 20px;
+  }
+  .arch h2{font-size:clamp(2.2rem,6.4vw,3.6rem)}
+  .arch h2 i{color:var(--gold-light)}
+  .note{margin:1.6rem auto 0;max-width:30ch;color:var(--cream);font-size:1.12rem;line-height:1.65}
+  .urdu{font-family:'Noto Nastaliq Urdu', var(--serif);font-size:1.9rem;line-height:2.2;color:var(--gold);margin-top:1.2rem}
+  .from{margin-top:1.6rem;font-family:var(--serif);font-style:italic;font-weight:300;font-size:1.3rem;color:var(--gold-light)}
+
+  .highlight{margin-top:2.4rem;display:flex;flex-direction:column;align-items:center}
+  .highlight .rule{
+    width:64px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin-bottom:1.8rem;
+  }
+  .thanks{
+    font-family:var(--serif);font-style:italic;font-weight:400;
+    font-size:clamp(2rem,6.4vw,3rem);line-height:1.1;
+    color:var(--gold);
+    background:linear-gradient(100deg,#c99a4b 0%,#fbeec6 38%,#e9c785 50%,#fbeec6 62%,#c99a4b 100%);
+    background-size:260% 100%;
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+    animation:sheen 6s linear infinite;
+    filter:drop-shadow(0 0 18px rgba(233,199,133,.35));
+  }
+  @keyframes sheen{from{background-position:130% 0}to{background-position:-130% 0}}
+  .sign{
+    margin-top:1.1rem;font-family:var(--serif);font-weight:300;font-size:clamp(1.15rem,3.4vw,1.4rem);
+    color:var(--cream);line-height:1.5;max-width:24ch;
+  }
+  .moniker{
+    margin-top:1.2rem;font-family:var(--serif);font-style:italic;font-weight:300;
+    font-size:clamp(1.5rem,4.6vw,2rem);color:var(--gold-light);
+  }
+  .heart{display:inline-block;animation:beat 1.8s ease-in-out infinite;transform-origin:center}
+  @keyframes beat{0%,60%,100%{transform:scale(1)}15%{transform:scale(1.22)}30%{transform:scale(1)}42%{transform:scale(1.14)}}
+  .actions{display:flex;gap:.9rem;flex-wrap:wrap;justify-content:center;margin-top:3rem}
+
+  /* ---------- Sound toggle ---------- */
+  .sound{
+    position:fixed;right:max(14px,2vw);bottom:max(14px,2vw);z-index:60;
+    font:500 .85rem/1 var(--sans);color:var(--mist);background:rgba(21,15,39,.7);
+    border:1px solid rgba(191,179,214,.3);border-radius:999px;padding:.65rem 1rem;cursor:pointer;
+    backdrop-filter:blur(6px);transition:color .2s,border-color .2s;
+  }
+  .sound:hover{color:var(--cream);border-color:var(--gold)}
+
+  /* ---------- Mobile ---------- */
+  @media (max-width:820px){
+    .stars-sec{grid-template-columns:1fr;grid-template-areas:"copy" "map" "panel";gap:2rem}
+    .copy{align-self:start}
+    .panel{min-height:13rem}
+    section.block{padding:11vh 6vw}
+    .moon{top:5vh;right:6vw}
+    .wish-text{max-width:24ch}
+  }
+
+  /* ---------- Reduced motion ---------- */
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation:none !important;transition:none !important}
+    #sky,.moon,.greet,.cue{opacity:1;transform:none}
+    .name text{stroke-dashoffset:0;fill-opacity:1;stroke-width:.5}
+    .star .ring{display:none}
+    #smoke{display:none}
+  }
+</style>
+</head>
+<body>
+
+<canvas id="sky" aria-hidden="true"></canvas>
+<canvas id="fx" aria-hidden="true"></canvas>
+<button class="sound" id="soundBtn" type="button" aria-pressed="false">Tap anywhere for sound</button>
+
+<main>
+
+  <!-- HERO -->
+  <header class="hero">
+    <svg class="moon" viewBox="0 0 100 100" aria-hidden="true">
+      <defs>
+        <linearGradient id="moonGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#f7e3b4"/><stop offset="1" stop-color="#c99a4b"/>
+        </linearGradient>
+        <mask id="cres">
+          <rect width="100" height="100" fill="white"/>
+          <circle cx="63" cy="40" r="34" fill="black"/>
+        </mask>
+      </defs>
+      <circle cx="46" cy="54" r="34" fill="url(#moonGrad)" mask="url(#cres)"/>
+    </svg>
+
+    <h1 class="sr" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)" id="srTitle">Happy birthday, Fatima</h1>
+    <svg class="name" viewBox="0 0 1000 300" aria-hidden="true">
+      <defs>
+        <linearGradient id="goldFill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#fbeec6"/>
+          <stop offset=".55" stop-color="#e9c785"/>
+          <stop offset="1" stop-color="#c99a4b"/>
+        </linearGradient>
+      </defs>
+      <text id="nameText" x="500" y="228" text-anchor="middle">Fatima</text>
+    </svg>
+    <p class="greet">Happy birthday. <i>This one is for you.</i></p>
+
+    <a class="cue" href="#stars">Keep scrolling</a>
+  </header>
+
+  <!-- CONSTELLATION -->
+  <section class="block stars-sec" id="stars">
+    <div class="copy">
+      <h2>Seven stars are waiting. Each holds a wish for you.</h2>
+      <p class="lede">Tap a star to open it. Find all seven and see what they make.</p>
+    </div>
+
+    <div class="map">
+      <svg id="constellation" viewBox="0 0 600 480" role="group" aria-label="Seven stars, each with a birthday wish">
+        <g id="links"></g>
+        <g id="starNodes"></g>
+        <text class="cname" id="cname" x="300" y="462">Fatima Mohmand</text>
+      </svg>
+    </div>
+
+    <div class="panel" aria-live="polite">
+      <p class="count" id="count">0 of 7 found</p>
+      <p class="wish-text" id="wishText">Start with any star.</p>
+      <p class="done" id="done"></p>
+    </div>
+  </section>
+
+  <!-- CANDLE -->
+  <section class="block candle-sec" id="candle" aria-labelledby="candleTitle">
+    <h2 id="candleTitle">One candle left.</h2>
+    <p class="lede" id="candleSub">Close your eyes and make a wish. When you're ready, blow it out.</p>
+
+    <svg class="cake" id="cake" viewBox="0 0 320 350" role="img" aria-label="A two-tier birthday cake with one lit candle">
+      <defs>
+        <radialGradient id="glowGrad" cx=".5" cy=".5" r=".5">
+          <stop offset="0" stop-color="#ffd98a" stop-opacity=".55"/>
+          <stop offset="1" stop-color="#ffd98a" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="flameGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#ffe9a8"/><stop offset=".6" stop-color="#ffab4a"/><stop offset="1" stop-color="#ff6a3d"/>
+        </linearGradient>
+        <linearGradient id="candleGrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#c99a4b"/><stop offset=".5" stop-color="#f7e3b4"/><stop offset="1" stop-color="#c99a4b"/>
+        </linearGradient>
+        <linearGradient id="tierBottom" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#7a2142"/><stop offset="1" stop-color="#521832"/>
+        </linearGradient>
+        <linearGradient id="tierTop" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#9b2a50"/><stop offset="1" stop-color="#6f1f3f"/>
+        </linearGradient>
+      </defs>
+
+      <!-- plate -->
+      <ellipse cx="160" cy="330" rx="140" ry="16" fill="#2f2350"/>
+      <ellipse cx="160" cy="326" rx="140" ry="16" fill="#3d2f68"/>
+      <ellipse cx="160" cy="324" rx="118" ry="11" fill="#2a2049"/>
+
+      <!-- bottom tier -->
+      <rect x="45" y="232" width="230" height="92" rx="14" fill="url(#tierBottom)"/>
+      <rect x="45" y="226" width="230" height="26" rx="13" fill="#f5ebd9"/>
+      <g fill="#f5ebd9">
+        <rect x="62"  y="240" width="14" height="40" rx="7"/>
+        <rect x="104" y="240" width="14" height="30" rx="7"/>
+        <rect x="152" y="240" width="14" height="46" rx="7"/>
+        <rect x="196" y="240" width="14" height="32" rx="7"/>
+        <rect x="240" y="240" width="14" height="38" rx="7"/>
+      </g>
+      <g fill="#e9c785">
+        <circle cx="70" cy="304" r="3"/><circle cx="110" cy="298" r="3"/><circle cx="135" cy="308" r="3"/>
+        <circle cx="185" cy="302" r="3"/><circle cx="215" cy="310" r="3"/><circle cx="250" cy="300" r="3"/>
+      </g>
+
+      <!-- top tier -->
+      <rect x="90" y="158" width="140" height="74" rx="12" fill="url(#tierTop)"/>
+      <rect x="90" y="152" width="140" height="24" rx="12" fill="#f5ebd9"/>
+      <g fill="#f5ebd9">
+        <rect x="104" y="164" width="14" height="30" rx="7"/>
+        <rect x="136" y="164" width="14" height="42" rx="7"/>
+        <rect x="176" y="164" width="14" height="30" rx="7"/>
+        <rect x="204" y="164" width="14" height="36" rx="7"/>
+      </g>
+      <g fill="#e9c785">
+        <circle cx="112" cy="218" r="2.6"/><circle cx="160" cy="222" r="2.6"/><circle cx="196" cy="216" r="2.6"/><circle cx="218" cy="224" r="2.6"/>
+      </g>
+
+      <!-- candle -->
+      <rect x="153" y="108" width="14" height="46" rx="3" fill="url(#candleGrad)"/>
+      <line x1="160" y1="100" x2="160" y2="109" stroke="#3b2a2a" stroke-width="2" stroke-linecap="round"/>
+
+      <circle id="glow" cx="160" cy="88" r="70" fill="url(#glowGrad)"/>
+      <path id="smoke" pathLength="1" d="M160 62 C150 50 172 40 160 28 C150 17 168 10 160 2"/>
+      <g id="flame">
+        <path d="M160 66 C173 82 175 96 160 104 C145 96 147 82 160 66Z" fill="url(#flameGrad)"/>
+        <path d="M160 83 C166 90 167 97 160 102 C153 97 154 90 160 83Z" fill="#fff3c9"/>
+      </g>
+      <circle class="flame-hit" id="flameHit" cx="160" cy="86" r="36" fill="transparent" role="button" tabindex="0" aria-label="Blow out the candle"/>
+    </svg>
+
+    <button class="btn" id="blowBtn" type="button">Blow out the candle</button>
+  </section>
+
+  <!-- FINALE -->
+  <section class="finale" id="finale" hidden aria-labelledby="finaleTitle">
+    <div class="arch">
+      <h2 id="finaleTitle">Happy birthday, <i id="finaleName">Fatima</i>.</h2>
+      <p class="urdu" lang="ur" dir="rtl">سالگرہ مبارک</p>
+      <p class="note" id="note"></p>
+      <div class="highlight">
+        <span class="rule" aria-hidden="true"></span>
+        <p class="thanks" id="thanks"></p>
+        <p class="sign"><span id="sign"></span> <span class="heart" id="signEmoji" aria-hidden="true"></span></p>
+        <p class="moniker" id="moniker"></p>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" id="sparkleBtn" type="button">More sparkle</button>
+      <button class="btn ghost" id="relightBtn" type="button">Light the candle again</button>
+    </div>
+  </section>
+
+</main>
+
+<script>
+/* ============ EDIT THESE ============ */
+const CONFIG = {
+  first: "Fatima",
+  last:  "Mohmand",
+  thanks: "Thank you for existing",
+  sign:   "Happy birthday from your crazy ashiq 🫠",
+  moniker: "mah e man",
+  signEmoji: "❤️‍🩹",
+  note:  "Today belongs to you. Eat the cake, ignore your phone, and let people make a fuss. May the year ahead be as good as you are to everyone around you.",
+  wishes: [
+    "May the chai stay hot and the mornings never feel rushed.",
+    "May the people you love keep picking up when you call.",
+    "May you be as kind to yourself as you are to everyone else.",
+    "May the work you care about find the people who needed it.",
+    "May every plan you make this year be a little braver than the last.",
+    "May you laugh so hard that you forget what was funny.",
+    "May this whole year feel like it was written for you."
+  ]
+};
+/* ==================================== */
+
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const $ = (id) => document.getElementById(id);
+
+/* --- fill in names --- */
+document.title = `For ${CONFIG.first}`;
+$('nameText').textContent = CONFIG.first;
+$('srTitle').textContent = `Happy birthday, ${CONFIG.first}`;
+$('cname').textContent = `${CONFIG.first} ${CONFIG.last}`;
+$('finaleName').textContent = CONFIG.first;
+$('note').textContent = CONFIG.note;
+$('thanks').textContent = CONFIG.thanks;
+$('sign').textContent = CONFIG.sign;
+$('signEmoji').textContent = CONFIG.signEmoji;
+$('moniker').textContent = CONFIG.moniker;
+
+/* ============ SOUND ENGINE (Web Audio, plays only after a tap) ============ */
+const Sound = (() => {
+  let ctx = null, bus = null, master = null, ambient = null, noiseBuf = null;
+  let started = false, enabled = true, ambOn = false, ambTimer = null, twTimer = null, chordIdx = 0;
+  const rnd = (a, b) => a + Math.random() * (b - a);
+  const choose = arr => arr[Math.floor(Math.random() * arr.length)];
+
+  // D major pentatonic, two octaves
+  const PENTA = [587.33, 659.25, 739.99, 880, 987.77, 1174.66, 1318.51];
+  const HIGH  = [1174.66, 1318.51, 1479.98, 1760, 1975.53, 2349.32, 2637.02];
+  // Dadd9 > Bm7 > Gmaj7 > Asus: slow, warm, never resolves harshly
+  const CHORDS = [
+    [73.42, 146.83, 220.00, 329.63, 369.99],
+    [61.74, 185.00, 220.00, 293.66, 369.99],
+    [98.00, 146.83, 246.94, 293.66, 369.99],
+    [55.00, 164.81, 220.00, 277.18, 329.63]
+  ];
+
+  function makeIR(sec, decay){
+    const rate = ctx.sampleRate, len = Math.floor(rate * sec);
+    const buf = ctx.createBuffer(2, len, rate);
+    for(let c = 0; c < 2; c++){
+      const d = buf.getChannelData(c); let lp = 0;
+      for(let i = 0; i < len; i++){
+        const env = Math.pow(1 - i / len, decay);
+        const k = .55 - .42 * (i / len);          // darkens as the tail fades
+        lp += ((Math.random() * 2 - 1) * env - lp) * k;
+        d[i] = lp * 2.4;
+      }
+    }
+    return buf;
+  }
+
+  function init(){
+    if(ctx) return ctx;
+    const A = window.AudioContext || window.webkitAudioContext;
+    if(!A) return null;
+    ctx = new A();
+    master = ctx.createGain(); master.gain.value = enabled ? .9 : 0;
+    const comp = ctx.createDynamicsCompressor();
+    comp.threshold.value = -20; comp.knee.value = 20; comp.ratio.value = 4;
+    comp.attack.value = .004; comp.release.value = .3;
+    master.connect(comp); comp.connect(ctx.destination);
+
+    bus = ctx.createGain();
+    const dry = ctx.createGain(); dry.gain.value = .78;
+    const conv = ctx.createConvolver(); conv.buffer = makeIR(3.4, 2.4);
+    const wet = ctx.createGain(); wet.gain.value = .6;
+    bus.connect(dry); dry.connect(master);
+    bus.connect(conv); conv.connect(wet); wet.connect(master);
+
+    ambient = ctx.createGain(); ambient.gain.value = 0; ambient.connect(bus);
+
+    noiseBuf = ctx.createBuffer(1, ctx.sampleRate * 2, ctx.sampleRate);
+    const nd = noiseBuf.getChannelData(0);
+    for(let i = 0; i < nd.length; i++) nd[i] = Math.random() * 2 - 1;
+    return ctx;
+  }
+  function ready(){
+    if(!enabled || !init()) return false;
+    if(ctx.state === 'suspended') ctx.resume();
+    return true;
+  }
+  function route(node, pan = 0, dest){
+    const out = dest || bus;
+    if(ctx.createStereoPanner){
+      const p = ctx.createStereoPanner(); p.pan.value = Math.max(-1, Math.min(1, pan));
+      node.connect(p); p.connect(out);
+    } else node.connect(out);
+  }
+
+  /* --- instruments --- */
+  const BELL = [[1, 1, 1], [2.76, .42, .55], [5.40, .2, .32], [8.93, .09, .18]];
+  function bell(f, when = 0, vol = .1, dur = 3.2, pan = 0){
+    if(!ready()) return;
+    const t = ctx.currentTime + when + .005;
+    const out = ctx.createGain(); route(out, pan);
+    BELL.forEach(([r, g, dm]) => {
+      if(f * r > 14000) return;
+      const o = ctx.createOscillator(), e = ctx.createGain();
+      o.type = 'sine'; o.frequency.value = f * r;
+      e.gain.setValueAtTime(.0001, t);
+      e.gain.exponentialRampToValueAtTime(vol * g, t + .006);
+      e.gain.exponentialRampToValueAtTime(.0001, t + dur * dm);
+      o.connect(e); e.connect(out); o.start(t); o.stop(t + dur * dm + .05);
+    });
+  }
+  function pluck(f, when = 0, vol = .16, dur = 2.2, pan = 0){
+    if(!ready()) return;
+    const t = ctx.currentTime + when + .005;
+    const lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.Q.value = .7;
+    lp.frequency.setValueAtTime(Math.min(f * 7, 12000), t);
+    lp.frequency.exponentialRampToValueAtTime(f * 1.3, t + .6);
+    const e = ctx.createGain();
+    e.gain.setValueAtTime(.0001, t);
+    e.gain.exponentialRampToValueAtTime(vol, t + .004);
+    e.gain.exponentialRampToValueAtTime(.0001, t + dur);
+    [['triangle', 1, 1], ['sine', 2, .3]].forEach(([type, r, g]) => {
+      const o = ctx.createOscillator(), og = ctx.createGain();
+      o.type = type; o.frequency.value = f * r; og.gain.value = g;
+      o.connect(og); og.connect(lp); o.start(t); o.stop(t + dur + .05);
+    });
+    lp.connect(e); route(e, pan);
+  }
+  function chord(freqs, when, dur, vol, dest){
+    if(!ready()) return;
+    const t = ctx.currentTime + when;
+    const lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 900; lp.Q.value = .4;
+    const g = ctx.createGain();
+    g.gain.setValueAtTime(.0001, t);
+    g.gain.linearRampToValueAtTime(vol, t + 3.6);
+    g.gain.setValueAtTime(vol, t + dur);
+    g.gain.linearRampToValueAtTime(.0001, t + dur + 4.5);
+    const per = 1 / (freqs.length * 2);
+    freqs.forEach(f => {
+      [['sawtooth', -7], ['triangle', 7]].forEach(([type, det]) => {
+        const o = ctx.createOscillator(), vg = ctx.createGain();
+        o.type = type; o.frequency.value = f; o.detune.value = det; vg.gain.value = per;
+        o.connect(vg); vg.connect(lp); o.start(t); o.stop(t + dur + 4.7);
+      });
+    });
+    lp.connect(g); g.connect(dest || ambient);
+  }
+  function noise(when, dur, o = {}){
+    if(!ready()) return;
+    const { type = 'bandpass', f0 = 1000, f1 = null, q = 1, vol = .1, pan = 0 } = o;
+    const t = ctx.currentTime + when;
+    const s = ctx.createBufferSource(); s.buffer = noiseBuf; s.loop = true;
+    const f = ctx.createBiquadFilter(); f.type = type; f.Q.value = q;
+    f.frequency.setValueAtTime(f0, t);
+    if(f1) f.frequency.exponentialRampToValueAtTime(f1, t + dur);
+    const g = ctx.createGain();
+    g.gain.setValueAtTime(.0001, t);
+    g.gain.linearRampToValueAtTime(vol, t + dur * .35);
+    g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+    s.connect(f); f.connect(g); route(g, pan);
+    s.start(t, Math.random() * 1.5); s.stop(t + dur + .05);
+  }
+
+  /* --- ambient bed --- */
+  function nextChord(){
+    if(!ambOn) return;
+    chord(CHORDS[chordIdx++ % CHORDS.length], 0, 7.5, .22);
+    ambTimer = setTimeout(nextChord, 7500);
+  }
+  function twinkle(){
+    if(!ambOn) return;
+    bell(choose(HIGH), 0, .03, 3.6, rnd(-.7, .7));
+    twTimer = setTimeout(twinkle, rnd(2200, 5200));
+  }
+  function startAmbient(){
+    if(ambOn || !ctx) return;
+    ambOn = true;
+    const t = ctx.currentTime;
+    ambient.gain.cancelScheduledValues(t);
+    ambient.gain.setValueAtTime(ambient.gain.value, t);
+    ambient.gain.linearRampToValueAtTime(.35, t + 5);
+    nextChord(); twTimer = setTimeout(twinkle, 3500);
+  }
+  function stopAmbient(){
+    ambOn = false; clearTimeout(ambTimer); clearTimeout(twTimer);
+    if(!ctx) return;
+    const t = ctx.currentTime;
+    ambient.gain.cancelScheduledValues(t);
+    ambient.gain.setTargetAtTime(0, t, .2);
+  }
+  function swellAmbient(){
+    if(!ctx || !ambOn) return;
+    const t = ctx.currentTime;
+    ambient.gain.cancelScheduledValues(t);
+    ambient.gain.setValueAtTime(ambient.gain.value, t);
+    ambient.gain.linearRampToValueAtTime(.55, t + 1.5);
+    ambient.gain.linearRampToValueAtTime(.35, t + 9);
+  }
+
+  document.addEventListener('visibilitychange', () => {
+    if(!ctx) return;
+    if(document.hidden) ctx.suspend(); else if(enabled) ctx.resume();
+  });
+
+  /* --- public cues --- */
+  return {
+    get started(){ return started; },
+    get enabled(){ return enabled; },
+    start(){ if(!ready()) return; started = true; startAmbient(); },
+    setEnabled(v){
+      enabled = v;
+      if(!ctx) return;
+      master.gain.cancelScheduledValues(ctx.currentTime);
+      master.gain.setTargetAtTime(v ? .9 : 0, ctx.currentTime, .06);
+      if(v){ if(ctx.state === 'suspended') ctx.resume(); if(started) startAmbient(); }
+      else stopAmbient();
+    },
+    tick(){ bell(1318.51, 0, .05, .9); },
+    star(i){
+      const pan = (i - 3) * .17;
+      pluck(PENTA[i], 0, .2, 2.4, pan);
+      bell(PENTA[i] * 2, .02, .055, 3.4, pan);
+    },
+    complete(){
+      [0, 1, 2, 3, 4, 5, 6].forEach((n, k) => pluck(PENTA[n], k * .11, .15, 2.6, (n - 3) * .15));
+      [587.33, 739.99, 880, 1174.66].forEach((f, k) => bell(f, .85 + k * .05, .085, 5.5, (k - 1.5) * .3));
+      chord([146.83, 220, 293.66, 369.99, 440], .6, 6, .32, bus);
+      this.shimmer(1.2);
+      swellAmbient();
+    },
+    blow(){
+      noise(0, .9, { type: 'bandpass', f0: 900, f1: 380, q: .8, vol: .09 });
+      noise(0, .5, { type: 'lowpass', f0: 650, f1: 200, vol: .08 });
+      [587.33, 739.99, 880, 1174.66, 1479.98].forEach((f, k) => {
+        bell(f, .6 + k * .14, .1, 3.8, (k - 2) * .25);
+        pluck(f / 2, .6 + k * .14, .09, 2.2, (k - 2) * .25);
+      });
+      [587.33, 880, 1174.66, 1479.98].forEach((f, k) => bell(f, 1.45, .08, 6, (k - 1.5) * .35));
+      chord([146.83, 220, 293.66, 369.99, 440], 1.0, 6.5, .36, bus);
+      swellAmbient();
+    },
+    relight(){
+      noise(0, .35, { type: 'highpass', f0: 2600, q: .6, vol: .08 });
+      pluck(392, .28, .12, 1.6);
+      bell(587.33, .32, .05, 2.4);
+    },
+    launch(){
+      const pan = rnd(-.6, .6);
+      noise(0, .45, { type: 'bandpass', f0: 500, f1: 3200, q: 2.5, vol: .05, pan });
+    },
+    boom(v = .42){
+      if(!ready()) return;
+      const t = ctx.currentTime + .005, pan = rnd(-.5, .5);
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.type = 'sine';
+      o.frequency.setValueAtTime(130, t); o.frequency.exponentialRampToValueAtTime(38, t + .5);
+      g.gain.setValueAtTime(.0001, t);
+      g.gain.exponentialRampToValueAtTime(v, t + .01);
+      g.gain.exponentialRampToValueAtTime(.0001, t + .9);
+      o.connect(g); route(g, pan); o.start(t); o.stop(t + .95);
+      noise(0, .5, { type: 'lowpass', f0: 2200, f1: 180, q: .5, vol: v * .7, pan });
+      for(let i = 0; i < 14; i++)
+        noise(.12 + rnd(.05, 1.2), .035, { type: 'highpass', f0: rnd(3000, 6000), q: .7, vol: rnd(.05, .13), pan: rnd(-.8, .8) });
+      for(let i = 0; i < 3; i++)
+        bell(choose(HIGH), .15 + i * rnd(.08, .2), .05, 3, rnd(-.7, .7));
+    },
+    shimmer(delay = 0){
+      for(let i = 0; i < 9; i++) bell(choose(HIGH), delay + i * rnd(.15, .3), .03, 3.2, rnd(-.8, .8));
+    },
+    sparkle(){
+      [0, 1, 2, 3, 4].forEach(k => {
+        bell(choose(HIGH), k * .08, .07, 3, rnd(-.6, .6));
+        pluck(choose(PENTA), k * .08, .1, 1.6, rnd(-.6, .6));
+      });
+    }
+  };
+})();
+
+const soundBtn = $('soundBtn');
+function syncSoundBtn(){
+  soundBtn.textContent = !Sound.started ? 'Tap anywhere for sound' : (Sound.enabled ? 'Sound on' : 'Sound off');
+  soundBtn.setAttribute('aria-pressed', String(Sound.started && Sound.enabled));
+}
+function firstGesture(e){
+  if(e.target.closest && e.target.closest('#soundBtn')) return;
+  Sound.start(); syncSoundBtn();
+  removeEventListener('pointerup', firstGesture);
+  removeEventListener('keydown', firstGesture);
+}
+addEventListener('pointerup', firstGesture);
+addEventListener('keydown', firstGesture);
+soundBtn.addEventListener('click', () => {
+  if(!Sound.started){ Sound.start(); Sound.tick(); }
+  else { Sound.setEnabled(!Sound.enabled); if(Sound.enabled) Sound.tick(); }
+  syncSoundBtn();
+});
+
+/* ============ NIGHT SKY ============ */
+const sky = $('sky'), sctx = sky.getContext('2d');
+let W = innerWidth, H = innerHeight, DPR = 1, stars = [], mx = .5;
+function sizeCanvas(c, ctx){
+  DPR = Math.min(window.devicePixelRatio || 1, 2);
+  c.width = W * DPR; c.height = H * DPR;
+  ctx.setTransform(DPR,0,0,DPR,0,0);
+}
+function makeStars(){
+  const n = Math.round(W * H / 6500);
+  stars = Array.from({length:n}, () => ({
+    x:Math.random(), y:Math.random(),
+    r:Math.random()*1.3 + .25, a:Math.random()*.55 + .25,
+    s:Math.random()*1.4 + .4, p:Math.random()*6.283,
+    d:Math.random()*.9 + .1, gold:Math.random() < .2
+  }));
+}
+function drawSky(t){
+  sctx.clearRect(0,0,W,H);
+  const sy = scrollY;
+  for(const s of stars){
+    const px = s.x*W + (mx - .5) * s.d * 26;
+    let py = (s.y*H - sy*s.d*.14) % H; if(py < 0) py += H;
+    const tw = reduced ? 1 : (.62 + .38*Math.sin(t*.001*s.s + s.p));
+    const a = s.a * tw;
+    sctx.fillStyle = s.gold ? `rgba(247,227,180,${a})` : `rgba(245,235,217,${a})`;
+    sctx.beginPath(); sctx.arc(px, py, s.r, 0, 6.283); sctx.fill();
+    if(s.r > 1.15){
+      sctx.fillStyle = `rgba(233,199,133,${a*.14})`;
+      sctx.beginPath(); sctx.arc(px, py, s.r*4, 0, 6.283); sctx.fill();
+    }
+  }
+  if(!reduced) requestAnimationFrame(drawSky);
+}
+function onResize(){
+  W = innerWidth; H = innerHeight;
+  sizeCanvas(sky, sctx); sizeCanvas(fx, fctx);
+  makeStars();
+  if(reduced) drawSky(0);
+}
+addEventListener('pointermove', e => { mx = e.clientX / innerWidth; }, {passive:true});
+if(reduced) addEventListener('scroll', () => drawSky(0), {passive:true});
+
+/* ============ CONSTELLATION ============ */
+const NS = 'http://www.w3.org/2000/svg';
+const POINTS = [[60,380],[150,260],[260,330],[320,190],[440,250],[500,110],[550,330]];
+const GLYPH = 'M0-15 C1.5-5 5-1.5 15 0 C5 1.5 1.5 5 0 15 C-1.5 5 -5 1.5 -15 0 C-5 -1.5 -1.5 -5 0 -15Z';
+const seen = new Set();
+let active = -1;
+const linkEls = [], starEls = [];
+
+for(let i = 0; i < POINTS.length - 1; i++){
+  const [x1,y1] = POINTS[i], [x2,y2] = POINTS[i+1];
+  const l = document.createElementNS(NS,'line');
+  l.setAttribute('x1',x1); l.setAttribute('y1',y1); l.setAttribute('x2',x2); l.setAttribute('y2',y2);
+  l.setAttribute('pathLength','1'); l.setAttribute('class','link');
+  $('links').appendChild(l); linkEls.push(l);
+}
+POINTS.forEach(([x,y], i) => {
+  const g = document.createElementNS(NS,'g');
+  g.setAttribute('class','star'); g.setAttribute('transform',`translate(${x} ${y})`);
+  g.setAttribute('tabindex','0'); g.setAttribute('role','button');
+  g.setAttribute('aria-label',`Open wish ${i+1} of ${POINTS.length}`);
+  const ring = document.createElementNS(NS,'circle');
+  ring.setAttribute('class','ring'); ring.setAttribute('r','15');
+  ring.style.animationDelay = (i * .38) + 's';
+  const glyph = document.createElementNS(NS,'path');
+  glyph.setAttribute('class','glyph'); glyph.setAttribute('d',GLYPH);
+  const hit = document.createElementNS(NS,'circle');
+  hit.setAttribute('r','30'); hit.setAttribute('fill','transparent');
+  g.append(ring, glyph, hit);
+  g.addEventListener('click', () => openStar(i));
+  g.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); openStar(i); } });
+  $('starNodes').appendChild(g); starEls.push(g);
+});
+
+function openStar(i){
+  seen.add(i); active = i;
+  starEls.forEach((el, k) => {
+    el.classList.toggle('seen', seen.has(k));
+    el.classList.toggle('active', k === i);
+  });
+  linkEls.forEach((l, j) => l.classList.toggle('on', seen.has(j) && seen.has(j+1)));
+  const wt = $('wishText');
+  wt.textContent = CONFIG.wishes[i % CONFIG.wishes.length];
+  wt.classList.remove('swap'); void wt.offsetWidth; wt.classList.add('swap');
+  $('count').textContent = `${seen.size} of ${POINTS.length} found`;
+  Sound.star(i);
+  if(seen.size === POINTS.length) complete();
+}
+
+let completed = false;
+function complete(){
+  if(completed) return; completed = true;
+  setTimeout(() => {
+    $('cname').classList.add('on');
+    $('done').textContent = `That's a constellation nobody has charted before. It's called ${CONFIG.first} ${CONFIG.last}.`;
+    $('done').classList.add('on');
+    Sound.complete();
+  }, 900);
+}
+
+/* ============ FIREWORKS + PETALS ============ */
+const fx = $('fx'), fctx = fx.getContext('2d');
+let parts = [], raf = null;
+const SPARK = ['#e9c785','#f7e3b4','#c4284d','#f08aa3','#f5ebd9'];
+const PETAL = ['#c4284d','#a81f40','#e04a6d','#f08aa3','#e9c785'];
+const rnd = (a,b) => a + Math.random()*(b-a);
+const pick = arr => arr[Math.floor(Math.random()*arr.length)];
+
+function burst(x, y){
+  const c = pick(SPARK), c2 = pick(SPARK);
+  for(let i = 0; i < 90; i++){
+    const a = Math.random()*6.283, sp = rnd(1.2, 6.2);
+    parts.push({t:'s', x, y, vx:Math.cos(a)*sp, vy:Math.sin(a)*sp, life:1, dec:rnd(.008,.017), c:Math.random()<.7?c:c2, r:rnd(.8,2.2)});
+  }
+  go();
+}
+function petals(n){
+  for(let i = 0; i < n; i++){
+    parts.push({t:'p', x:rnd(0,W), y:rnd(-H*.4,-20), vx:rnd(-.5,.5), vy:rnd(.8,2.1),
+      rot:rnd(0,6.28), vr:rnd(-.05,.05), size:rnd(5,11), life:1, dec:.0011, c:pick(PETAL), ph:rnd(0,6.28)});
+  }
+  go();
+}
+function go(){ if(!raf) raf = requestAnimationFrame(step); }
+function step(){
+  fctx.clearRect(0,0,W,H);
+  parts = parts.filter(p => p.life > 0 && p.y < H + 40);
+  for(const p of parts){
+    if(p.t === 's'){
+      p.vx *= .985; p.vy = p.vy*.985 + .055; p.x += p.vx; p.y += p.vy; p.life -= p.dec;
+      fctx.globalAlpha = Math.max(p.life,0); fctx.strokeStyle = p.c; fctx.lineWidth = p.r;
+      fctx.beginPath(); fctx.moveTo(p.x, p.y); fctx.lineTo(p.x - p.vx*2.2, p.y - p.vy*2.2); fctx.stroke();
+    } else {
+      p.ph += .03; p.x += p.vx + Math.sin(p.ph)*.8; p.y += p.vy; p.rot += p.vr; p.life -= p.dec;
+      fctx.save(); fctx.translate(p.x, p.y); fctx.rotate(p.rot);
+      fctx.globalAlpha = Math.min(1, p.life*2.2); fctx.fillStyle = p.c;
+      fctx.beginPath(); fctx.ellipse(0, 0, p.size, p.size*.55, 0, 0, 6.283); fctx.fill();
+      fctx.restore();
+    }
+  }
+  fctx.globalAlpha = 1;
+  raf = parts.length ? requestAnimationFrame(step) : null;
+}
+function fireworkShow(){
+  if(reduced) return;
+  [450, 800, 1200, 1600, 2100, 3150].forEach(d => {
+    setTimeout(() => Sound.launch(), d - 450);
+    setTimeout(() => { burst(rnd(W*.15, W*.85), rnd(H*.12, H*.5)); Sound.boom(); }, d);
+  });
+  setTimeout(() => { petals(70); Sound.shimmer(); }, 950);
+  setTimeout(() => petals(40), 3500);
+}
+
+/* ============ CANDLE ============ */
+let lit = true;
+const cake = $('cake');
+function blow(){
+  if(!lit) return; lit = false;
+  cake.classList.add('out');
+  $('blowBtn').disabled = true;
+  $('candleTitle').textContent = 'Wish made.';
+  $('candleSub').textContent = "Keep it to yourself. That's the one rule.";
+  Sound.blow();
+  fireworkShow();
+  setTimeout(revealFinale, reduced ? 200 : 2600);
+}
+function revealFinale(){
+  const f = $('finale');
+  f.hidden = false;
+  requestAnimationFrame(() => requestAnimationFrame(() => f.classList.add('show')));
+  f.scrollIntoView({behavior: reduced ? 'auto' : 'smooth', block:'start'});
+}
+function relight(){
+  lit = true;
+  cake.classList.remove('out');
+  $('blowBtn').disabled = false;
+  $('candleTitle').textContent = 'One candle left.';
+  $('candleSub').textContent = "Close your eyes and make a wish. When you're ready, blow it out.";
+  $('candle').scrollIntoView({behavior: reduced ? 'auto' : 'smooth', block:'start'});
+  Sound.relight();
+}
+$('blowBtn').addEventListener('click', blow);
+$('flameHit').addEventListener('click', blow);
+$('flameHit').addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); blow(); } });
+$('relightBtn').addEventListener('click', relight);
+$('sparkleBtn').addEventListener('click', () => {
+  if(!reduced){
+    [0, 200, 450].forEach(d => setTimeout(() => { burst(rnd(W*.2, W*.8), rnd(H*.15, H*.5)); Sound.boom(.28); }, d));
+    petals(36);
+  }
+  Sound.sparkle();
+});
+
+/* ============ INIT ============ */
+addEventListener('resize', onResize);
+onResize();
+requestAnimationFrame(drawSky);
+</script>
+</body>
+</html>
